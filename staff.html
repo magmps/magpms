@@ -4,30 +4,64 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>MAGPMS — Staff</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#080c14;--surface:#0e1520;--border:#1c2a3e;--accent:#f59e0b;--accent2:#0ea5e9;
-  --danger:#ef4444;--success:#22c55e;--txt:#e2e8f0;--muted:#64748b;}
+:root{--bg:#080c14;--surface:#0e1520;--surface2:#131c2b;--border:#1c2a3e;--accent:#f59e0b;--accent2:#0ea5e9;
+  --danger:#ef4444;--success:#22c55e;--purple:#a78bfa;--txt:#e2e8f0;--muted:#64748b;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-size:15px;min-height:100vh}
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 18px;
-  display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-header h1{font-family:'Syne',sans-serif;font-size:17px}
-header h1 small{display:block;font-size:10px;color:var(--muted);font-weight:400}
-.btn{padding:8px 14px;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-.btn-out{background:var(--danger);color:#fff}
-.btn-gold{background:var(--accent);color:#000;width:100%;padding:12px;font-size:14px}
-.btn-blue{background:var(--accent2);color:#000;width:100%;padding:12px;font-size:14px}
-.btn:disabled{opacity:.5}
-.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px;display:grid;gap:16px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px}
-.card h2{font-family:'Syne',sans-serif;font-size:15px;margin-bottom:12px;color:var(--accent)}
+h1.display{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(38px,10vw,56px);letter-spacing:-.02em}
+.sub{color:var(--muted);margin-top:4px}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:13px 18px;
+  display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:30}
+header .brand{font-family:'Syne',sans-serif;font-size:16px}
+header .brand small{display:block;font-size:10px;color:var(--muted);font-weight:400}
+.menu-btn{background:var(--surface2);border:1px solid var(--border);color:var(--txt);
+  border-radius:10px;padding:9px 13px;font-size:16px;cursor:pointer}
+#sideMenu{position:fixed;top:0;left:-290px;width:280px;height:100vh;background:var(--surface);
+  border-right:1px solid var(--border);z-index:60;transition:left .25s;padding:20px 14px;overflow-y:auto}
+#sideMenu.open{left:0}
+#menuOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:none}
+#menuOverlay.show{display:block}
+.mi{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;cursor:pointer;
+  font-size:14.5px;color:var(--txt);border-left:3px solid transparent;margin-bottom:4px}
+.mi:hover,.mi.active{background:var(--surface2);border-left-color:var(--accent)}
+.mi span.ic{font-size:19px}
+.clock{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:14px 18px;display:inline-block;font-family:'JetBrains Mono',monospace;margin-top:18px}
+.clock .d{color:var(--accent);font-size:15px}
+.clock .t{color:var(--muted);font-size:14px;text-align:right;margin-top:2px}
+.notice{display:flex;gap:14px;align-items:center;background:rgba(14,165,233,.08);
+  border:1px solid rgba(14,165,233,.3);border-radius:16px;padding:16px 18px;margin-top:18px;
+  color:var(--accent2);font-size:15px}
+.notice b{color:#fff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px 18px;
+  position:relative;overflow:hidden}
+.scard::after{content:"";position:absolute;top:-38px;right:-38px;width:120px;height:120px;border-radius:50%;
+  background:rgba(255,255,255,.03)}
+.scard .em{font-size:30px}
+.scard .lbl{color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-top:12px}
+.scard .val{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(24px,7vw,34px);margin-top:8px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scard .unit{color:var(--muted);font-size:13px;margin-top:8px}
+.v-gold{color:var(--accent)}.v-blue{color:var(--accent2)}.v-purple{color:var(--purple)}.v-green{color:var(--success)}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;margin-top:16px}
+.card h2{font-family:'Syne',sans-serif;font-size:16px;margin-bottom:12px;color:var(--accent)}
+.section{display:none}
+.section.show{display:block}
 .field{display:grid;gap:5px;margin-bottom:11px}
 label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 input,select{background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--txt);
   font-size:14px;padding:11px 13px;width:100%;font-family:inherit;outline:none}
 input:focus,select:focus{border-color:var(--accent)}
 select option{background:var(--surface)}
+.btn{padding:10px 14px;border:none;border-radius:10px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-gold{background:var(--accent);color:#000;width:100%;padding:12px;font-size:14px}
+.btn-blue{background:var(--accent2);color:#000;width:100%;padding:12px;font-size:14px}
+.btn-out{background:var(--danger);color:#fff}
+.btn:disabled{opacity:.5}
 .msg{padding:9px 12px;border-radius:9px;font-size:13px;display:none;margin-top:10px}
 .msg.error{background:rgba(239,68,68,.12);color:var(--danger);display:block}
 .msg.success{background:rgba(34,197,94,.12);color:var(--success);display:block}
@@ -50,64 +84,66 @@ td{padding:8px;border-bottom:1px solid var(--border)}
   font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent2)}
 #loading{display:grid;place-items:center;height:100vh;color:var(--muted)}
 .hidden{display:none!important}
+@media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 <div id="loading">Loading...</div>
 <div id="app" style="display:none">
+
 <header>
-  <h1>⛽ MAGPMS Staff<small id="whoami"></small></h1>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <div class="brand">⛽ MAGPMS<small id="whoami"></small></div>
   <button class="btn btn-out" onclick="logout()">Log Out</button>
 </header>
+
+<div id="menuOverlay" onclick="toggleMenu()"></div>
+<nav id="sideMenu">
+  <div style="display:flex;align-items:center;gap:12px;padding:8px 10px 20px">
+    <div style="width:52px;height:52px;border-radius:50%;border:2.5px solid var(--accent);display:grid;place-items:center;font-size:22px">⛽</div>
+    <div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:.04em">MAGPMS</div>
+    <div style="font-size:11px;color:var(--muted)">Fuel Station Cloud</div></div>
+  </div>
+  <div class="mi active" onclick="go('dashboard',this)"><span class="ic">📊</span> Dashboard</div>
+  <div class="mi" onclick="go('pos',this)"><span class="ic">🧾</span> Sales / POS</div>
+  <div class="mi" onclick="go('shift',this)"><span class="ic">🕒</span> My Shift &amp; Nozzles</div>
+  <div class="mi" onclick="go('inventory',this)"><span class="ic">🛢</span> Fuel Inventory</div>
+  <div class="mi" onclick="go('attendance',this)"><span class="ic">🕐</span> Attendance</div>
+</nav>
+
 <div class="wrap">
 
-  <!-- ATTENDANCE -->
-  <div class="card">
-    <h2>🕐 Attendance</h2>
-    <div id="attBanner" class="shift-banner shift-none">Checking...</div>
-    <div style="display:flex;gap:10px">
-      <button class="btn btn-blue" id="inBtn" onclick="doCheckIn()" style="flex:1">✅ Check In</button>
-      <button class="btn btn-out" id="outBtn" onclick="doCheckOut()" style="flex:1;padding:12px">🚪 Check Out</button>
-    </div>
-    <div class="msg" id="attMsg"></div>
+<!-- ============ DASHBOARD ============ -->
+<div class="section show" id="sec-dashboard">
+  <h1 class="display">Dashboard</h1>
+  <div class="sub">Live station overview</div>
+  <div class="clock"><div class="d" id="clockDate">—</div><div class="t" id="clockTime">—</div></div>
+
+  <div class="notice">👤 <span>Logged in as <b id="noticeName">you</b>. Showing your personal stats. Admin has full view.</span></div>
+
+  <div class="stats">
+    <div class="scard"><div class="em">💰</div><div class="lbl">My Sales (ETB)</div>
+      <div class="val v-gold" id="dMySales">0</div><div class="unit">ETB</div></div>
+    <div class="scard"><div class="em">🛢</div><div class="lbl">Fuel Stock</div>
+      <div class="val v-blue" id="dFuelStock">0</div><div class="unit">Liters</div></div>
+    <div class="scard"><div class="em">🧾</div><div class="lbl">My Transactions</div>
+      <div class="val v-purple" id="dMyTx">0</div><div class="unit">Sales</div></div>
+    <div class="scard"><div class="em">⛽</div><div class="lbl">My Liters Sold</div>
+      <div class="val v-green" id="dMyLiters">0</div><div class="unit">Liters</div></div>
   </div>
 
-  <!-- SHIFT -->
   <div class="card">
-    <h2>🕒 My Shift</h2>
-    <div id="shiftBanner" class="shift-banner shift-none">Checking shift...</div>
-    <div id="openShiftForm">
-      <div class="field"><label>Opening Meter Reading (L)</label>
-        <input type="number" id="openMeter" min="0" step="0.01" inputmode="decimal"/></div>
-      <button class="btn btn-blue" id="openBtn" onclick="openShift()">▶ Open Shift</button>
-    </div>
-    <div id="closeShiftForm" class="hidden">
-      <div class="field"><label>Closing Meter Reading (L)</label>
-        <input type="number" id="closeMeter" min="0" step="0.01" inputmode="decimal"/></div>
-      <button class="btn btn-out" style="width:100%;padding:12px" id="closeBtn" onclick="closeShift()">⏹ Close Shift</button>
-    </div>
-    <div class="msg" id="shiftMsg"></div>
-  </div>
-
-  <!-- NOZZLES -->
-  <div class="card">
-    <h2>⛽ Nozzle Meter Readings</h2>
-    <div class="field"><label>Nozzle</label><select id="nzSel"></select></div>
-    <div class="field"><label>Meter Reading (L)</label>
-      <input type="number" id="nzVal" min="0" step="0.01" inputmode="decimal"/></div>
-    <div style="display:flex;gap:10px">
-      <button class="btn btn-blue" id="nzOpenBtn" onclick="nozzleOpen()" style="flex:1">▶ Save Opening</button>
-      <button class="btn btn-gold" id="nzCloseBtn" onclick="nozzleClose()" style="flex:1;width:auto">⏹ Save Closing</button>
-    </div>
-    <div class="msg" id="nzMsg"></div>
-    <div style="border-top:1px solid var(--border);margin:12px 0"></div>
+    <h2>📄 My Recent Sales</h2>
     <table>
-      <thead><tr><th>Nozzle</th><th>Fuel</th><th>Open</th><th>Close</th><th>Liters</th></tr></thead>
-      <tbody id="nzBody"><tr><td colspan="5" class="empty">No readings this shift</td></tr></tbody>
+      <thead><tr><th>Time</th><th>Fuel</th><th>Liters</th><th>Total ETB</th></tr></thead>
+      <tbody id="salesBody"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
     </table>
   </div>
+</div>
 
-  <!-- SALE -->
+<!-- ============ POS ============ -->
+<div class="section" id="sec-pos">
+  <h1 class="display">Sales</h1><div class="sub">Point of sale</div>
   <div class="card">
     <h2>💰 Record Fuel Sale</h2>
     <div class="price-chips" id="priceChips"></div>
@@ -125,19 +161,65 @@ td{padding:8px;border-bottom:1px solid var(--border)}
     <button class="btn btn-gold" id="saleBtn" onclick="submitSale()">✔ Record Sale</button>
     <div class="msg" id="saleMsg"></div>
   </div>
+</div>
 
+<!-- ============ SHIFT + NOZZLES ============ -->
+<div class="section" id="sec-shift">
+  <h1 class="display">Shift</h1><div class="sub">Shift &amp; nozzle readings</div>
+  <div class="card">
+    <h2>🕒 My Shift</h2>
+    <div id="shiftBanner" class="shift-banner shift-none">Checking shift...</div>
+    <div id="openShiftForm">
+      <div class="field"><label>Opening Meter Reading (L)</label>
+        <input type="number" id="openMeter" min="0" step="0.01" inputmode="decimal"/></div>
+      <button class="btn btn-blue" id="openBtn" onclick="openShift()">▶ Open Shift</button>
+    </div>
+    <div id="closeShiftForm" class="hidden">
+      <div class="field"><label>Closing Meter Reading (L)</label>
+        <input type="number" id="closeMeter" min="0" step="0.01" inputmode="decimal"/></div>
+      <button class="btn btn-out" style="width:100%;padding:12px" id="closeBtn" onclick="closeShift()">⏹ Close Shift</button>
+    </div>
+    <div class="msg" id="shiftMsg"></div>
+  </div>
+  <div class="card">
+    <h2>⛽ Nozzle Meter Readings</h2>
+    <div class="field"><label>Nozzle</label><select id="nzSel"></select></div>
+    <div class="field"><label>Meter Reading (L)</label>
+      <input type="number" id="nzVal" min="0" step="0.01" inputmode="decimal"/></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-blue" id="nzOpenBtn" onclick="nozzleOpen()" style="flex:1">▶ Save Opening</button>
+      <button class="btn btn-gold" id="nzCloseBtn" onclick="nozzleClose()" style="flex:1;width:auto">⏹ Save Closing</button>
+    </div>
+    <div class="msg" id="nzMsg"></div>
+    <div style="border-top:1px solid var(--border);margin:12px 0"></div>
+    <table>
+      <thead><tr><th>Nozzle</th><th>Fuel</th><th>Open</th><th>Close</th><th>Liters</th></tr></thead>
+      <tbody id="nzBody"><tr><td colspan="5" class="empty">No readings this shift</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============ INVENTORY ============ -->
+<div class="section" id="sec-inventory">
+  <h1 class="display">Inventory</h1><div class="sub">Tank levels</div>
   <div class="card">
     <h2>🛢 Tank Levels</h2>
     <div id="tankList" class="empty">Loading tanks...</div>
   </div>
+</div>
 
+<!-- ============ ATTENDANCE ============ -->
+<div class="section" id="sec-attendance">
+  <h1 class="display">Attendance</h1><div class="sub">Check in / out</div>
   <div class="card">
-    <h2>📄 My Recent Sales</h2>
-    <table>
-      <thead><tr><th>Time</th><th>Fuel</th><th>Liters</th><th>Total ETB</th></tr></thead>
-      <tbody id="salesBody"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
-    </table>
+    <div id="attBanner" class="shift-banner shift-none">Checking...</div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-blue" id="inBtn" onclick="doCheckIn()" style="flex:1">✅ Check In</button>
+      <button class="btn btn-out" id="outBtn" onclick="doCheckOut()" style="flex:1;padding:12px">🚪 Check Out</button>
+    </div>
+    <div class="msg" id="attMsg"></div>
   </div>
+</div>
 
 </div>
 </div>
@@ -149,85 +231,77 @@ let session=null, prices={};
 function logout(){localStorage.removeItem('magpms_staff');location.href='index.html';}
 function msg(id,text,type){const el=document.getElementById(id);el.textContent=text;el.className='msg '+type;}
 function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+function toggleMenu(){document.getElementById('sideMenu').classList.toggle('open');
+  document.getElementById('menuOverlay').classList.toggle('show');}
+function go(sec,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('show'));
+  document.getElementById('sec-'+sec).classList.add('show');
+  document.querySelectorAll('.mi').forEach(m=>m.classList.remove('active'));
+  el.classList.add('active');toggleMenu();window.scrollTo(0,0);
+}
+function tick(){
+  const n=new Date();
+  document.getElementById('clockDate').textContent=n.toLocaleDateString('en-GB',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('clockTime').textContent=n.toLocaleTimeString('en-GB');
+}
+setInterval(tick,1000);
 
 function liveTotal(){
   const l=parseFloat(document.getElementById('sLiters').value)||0;
   const p=prices[document.getElementById('sFuel').value]||0;
   document.getElementById('liveTotal').textContent='Total: '+(l*p).toFixed(2)+' ETB @ '+p+'/L';
 }
-document.getElementById('sLiters').addEventListener('input',liveTotal);
-
+document.addEventListener('input',e=>{if(e.target.id==='sLiters')liveTotal();});
 function togglePayFields(){
-  const isCredit=document.getElementById('sPay').value==='credit';
-  document.getElementById('custField').classList.toggle('hidden',!isCredit);
+  document.getElementById('custField').classList.toggle('hidden',document.getElementById('sPay').value!=='credit');
 }
 
 async function loadPrices(){
-  try{
-    const r=await rpc('get_prices',{});
-    if(Array.isArray(r)){
-      r.forEach(p=>prices[p.fuel_type]=Number(p.price_per_liter));
+  try{const r=await rpc('get_prices',{});
+    if(Array.isArray(r)){r.forEach(p=>prices[p.fuel_type]=Number(p.price_per_liter));
       document.getElementById('priceChips').innerHTML=r.map(p=>
-        `<span class="chip">${p.fuel_type}: ${Number(p.price_per_liter).toFixed(2)} ETB/L</span>`).join('');
-      liveTotal();
-    }
+        `<span class="chip">${p.fuel_type}: ${Number(p.price_per_liter).toFixed(2)} ETB/L</span>`).join('');liveTotal();}
   }catch(e){}
 }
-
 async function loadCustomers(){
-  try{
-    const r=await rpc('list_credit_customers',{});
+  try{const r=await rpc('list_credit_customers',{});
     const sel=document.getElementById('sCustomer');
-    if(Array.isArray(r)&&r.length){
-      sel.innerHTML=r.map(c=>`<option value="${c.id}">${esc(c.name)}${c.plate_no?' · '+esc(c.plate_no):''} (owes ${Number(c.balance).toFixed(0)} ETB)</option>`).join('');
-    }else{sel.innerHTML='<option value="">No credit customers — ask admin</option>';}
+    if(Array.isArray(r)&&r.length){sel.innerHTML=r.map(c=>`<option value="${c.id}">${esc(c.name)}${c.plate_no?' · '+esc(c.plate_no):''} (owes ${Number(c.balance).toFixed(0)} ETB)</option>`).join('');}
+    else{sel.innerHTML='<option value="">No credit customers — ask admin</option>';}
   }catch(e){}
 }
-
 async function checkShift(){
-  try{
-    const r=await rpc('my_open_shift',{p_staff_id:session.id});
+  try{const r=await rpc('my_open_shift',{p_staff_id:session.id});
     const banner=document.getElementById('shiftBanner');
     const hasOpen=Array.isArray(r)&&r.length>0;
-    if(hasOpen){
-      const sh=r[0];
+    if(hasOpen){const sh=r[0];
       banner.className='shift-banner shift-open';
       banner.textContent='✔ Shift OPEN since '+new Date(sh.opened_at).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' · opening meter '+sh.opening_meter+' L';
       document.getElementById('openShiftForm').classList.add('hidden');
       document.getElementById('closeShiftForm').classList.remove('hidden');
-    }else{
-      banner.className='shift-banner shift-none';
+    }else{banner.className='shift-banner shift-none';
       banner.textContent='⚠ No open shift — open one to record sales';
       document.getElementById('openShiftForm').classList.remove('hidden');
-      document.getElementById('closeShiftForm').classList.add('hidden');
-    }
+      document.getElementById('closeShiftForm').classList.add('hidden');}
   }catch(e){}
 }
-
 async function openShift(){
   const m=parseFloat(document.getElementById('openMeter').value);
   if(isNaN(m)||m<0){msg('shiftMsg','Enter opening meter reading','error');return;}
   const btn=document.getElementById('openBtn');btn.disabled=true;
-  try{
-    const r=await rpc('open_shift',{p_staff_id:session.id,p_opening_meter:m});
-    msg('shiftMsg',r.message,r.success?'success':'error');
-    if(r.success)checkShift();
-  }catch(e){msg('shiftMsg','Connection error','error');}
-  finally{btn.disabled=false;}
+  try{const r=await rpc('open_shift',{p_staff_id:session.id,p_opening_meter:m});
+    msg('shiftMsg',r.message,r.success?'success':'error');if(r.success)checkShift();
+  }catch(e){msg('shiftMsg','Connection error','error');}finally{btn.disabled=false;}
 }
-
 async function closeShift(){
   const m=parseFloat(document.getElementById('closeMeter').value);
   if(isNaN(m)||m<0){msg('shiftMsg','Enter closing meter reading','error');return;}
   const btn=document.getElementById('closeBtn');btn.disabled=true;
-  try{
-    const r=await rpc('close_shift',{p_staff_id:session.id,p_closing_meter:m});
+  try{const r=await rpc('close_shift',{p_staff_id:session.id,p_closing_meter:m});
     msg('shiftMsg',r.message,r.success?'success':'error');
     if(r.success){document.getElementById('closeMeter').value='';checkShift();}
-  }catch(e){msg('shiftMsg','Connection error','error');}
-  finally{btn.disabled=false;}
+  }catch(e){msg('shiftMsg','Connection error','error');}finally{btn.disabled=false;}
 }
-
 async function submitSale(){
   const fuel=document.getElementById('sFuel').value;
   const liters=parseFloat(document.getElementById('sLiters').value);
@@ -236,67 +310,54 @@ async function submitSale(){
   if(!liters||liters<=0){msg('saleMsg','Enter valid liters','error');return;}
   if(pay==='credit'&&!cust){msg('saleMsg','Select a credit customer','error');return;}
   const btn=document.getElementById('saleBtn');btn.disabled=true;btn.textContent='Saving...';
-  try{
-    const r=await rpc('record_sale_v2',{p_staff_id:session.id,p_fuel_type:fuel,p_liters:liters,p_payment:pay,p_credit_customer_id:cust});
+  try{const r=await rpc('record_sale_v2',{p_staff_id:session.id,p_fuel_type:fuel,p_liters:liters,p_payment:pay,p_credit_customer_id:cust});
     msg('saleMsg',r.message+(r.total?(' — '+r.total+' ETB'):''),r.success?'success':'error');
-    if(r.success){document.getElementById('sLiters').value='';liveTotal();loadSales();loadTanks();if(pay==='credit')loadCustomers();}
+    if(r.success){document.getElementById('sLiters').value='';liveTotal();loadMyData();loadTanks();if(pay==='credit')loadCustomers();}
   }catch(e){msg('saleMsg','Connection error','error');}
   finally{btn.disabled=false;btn.textContent='✔ Record Sale';}
 }
-
 async function loadTanks(){
-  try{
-    const tanks=await rpc('list_tanks',{});
+  try{const tanks=await rpc('list_tanks',{});
     if(!Array.isArray(tanks))return;
+    const stock=tanks.reduce((a,t)=>a+Number(t.current_liters||0),0);
+    document.getElementById('dFuelStock').textContent=stock.toLocaleString(undefined,{maximumFractionDigits:0});
     const el=document.getElementById('tankList');el.className='';
     el.innerHTML=tanks.map(t=>{
       const pct=Math.max(0,Math.min(100,(t.current_liters/t.capacity_liters)*100));
       return `<div class="tank"><span>${t.tank_name} · ${t.fuel_type}</span>
         <span class="mono">${Number(t.current_liters).toLocaleString()} L</span>
-        <span class="bar"><i style="width:${pct}%"></i></span></div>`;
-    }).join('');
+        <span class="bar"><i style="width:${pct}%"></i></span></div>`;}).join('');
   }catch(e){}
 }
-
-async function loadSales(){
-  try{
-    const sales=await rpc('list_sales',{p_staff_id:session.id,p_limit:50});
+async function loadMyData(){
+  try{const sales=await rpc('list_sales',{p_staff_id:session.id,p_limit:100});
+    if(!Array.isArray(sales))return;
+    const live=sales.filter(s=>!s.voided);
+    const rev=live.reduce((a,s)=>a+Number(s.total_etb||0),0);
+    const lits=live.reduce((a,s)=>a+Number(s.liters||0),0);
+    document.getElementById('dMySales').textContent=rev.toLocaleString(undefined,{maximumFractionDigits:0});
+    document.getElementById('dMyTx').textContent=live.length;
+    document.getElementById('dMyLiters').textContent=lits.toLocaleString(undefined,{maximumFractionDigits:0});
     const tb=document.getElementById('salesBody');
-    if(!Array.isArray(sales)||sales.length===0){tb.innerHTML='<tr><td colspan="4" class="empty">No sales yet</td></tr>';return;}
-    tb.innerHTML=sales.map(s=>{
-      const t=new Date(s.created_at).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    if(live.length===0){tb.innerHTML='<tr><td colspan="4" class="empty">No sales yet</td></tr>';return;}
+    tb.innerHTML=live.slice(0,20).map(s=>{
+      const t=new Date(s.created_at).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
       return `<tr><td class="mono">${t}</td><td>${s.fuel_type}</td><td class="mono">${s.liters}</td><td class="mono">${Number(s.total_etb).toFixed(2)}</td></tr>`;
     }).join('');
   }catch(e){}
 }
-
-/* ---- V4: ATTENDANCE ---- */
 async function attStatus(){
-  try{
-    const r=await rpc('my_attendance_status',{p_staff_id:session.id});
+  try{const r=await rpc('my_attendance_status',{p_staff_id:session.id});
     const b=document.getElementById('attBanner');
-    if(r.checked_in){
-      b.className='shift-banner shift-open';
+    if(r.checked_in){b.className='shift-banner shift-open';
       b.textContent='✔ Checked IN since '+new Date(r.since).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-    }else{
-      b.className='shift-banner shift-none';
-      b.textContent='⚠ Not checked in';
-    }
+    }else{b.className='shift-banner shift-none';b.textContent='⚠ Not checked in';}
   }catch(e){}
 }
-async function doCheckIn(){
-  const r=await rpc('check_in',{p_staff_id:session.id});
-  msg('attMsg',r.message,r.success?'success':'error');attStatus();
-}
-async function doCheckOut(){
-  const r=await rpc('check_out',{p_staff_id:session.id});
-  msg('attMsg',r.message,r.success?'success':'error');attStatus();
-}
-
-/* ---- V4: NOZZLES ---- */
+async function doCheckIn(){const r=await rpc('check_in',{p_staff_id:session.id});msg('attMsg',r.message,r.success?'success':'error');attStatus();}
+async function doCheckOut(){const r=await rpc('check_out',{p_staff_id:session.id});msg('attMsg',r.message,r.success?'success':'error');attStatus();}
 async function loadNozzles(){
-  try{
-    const r=await rpc('list_nozzles',{});
+  try{const r=await rpc('list_nozzles',{});
     if(Array.isArray(r))document.getElementById('nzSel').innerHTML=r.map(n=>
       `<option value="${n.id}">${n.nozzle_name} · ${n.fuel_type} (${n.pump_name})</option>`).join('');
   }catch(e){}
@@ -318,15 +379,13 @@ async function nozzleClose(){
   if(r.success){document.getElementById('nzVal').value='';loadMyReadings();}
 }
 async function loadMyReadings(){
-  try{
-    const r=await rpc('my_nozzle_readings',{p_staff_id:session.id});
+  try{const r=await rpc('my_nozzle_readings',{p_staff_id:session.id});
     const tb=document.getElementById('nzBody');
     if(!Array.isArray(r)||r.length===0){tb.innerHTML='<tr><td colspan="5" class="empty">No readings this shift</td></tr>';return;}
     tb.innerHTML=r.map(x=>{
       const lit=(x.closing!=null)?(x.closing-x.opening).toFixed(1):'—';
       return `<tr><td>${x.nozzle_name}</td><td>${x.fuel_type}</td><td class="mono">${x.opening}</td>
-        <td class="mono">${x.closing??'—'}</td><td class="mono">${lit}</td></tr>`;
-    }).join('');
+        <td class="mono">${x.closing??'—'}</td><td class="mono">${lit}</td></tr>`;}).join('');
   }catch(e){}
 }
 
@@ -334,9 +393,11 @@ async function loadMyReadings(){
   session=JSON.parse(localStorage.getItem('magpms_staff')||'null');
   if(!session||!session.success){location.href='index.html';return;}
   document.getElementById('whoami').textContent=session.full_name+' · '+session.role;
+  document.getElementById('noticeName').textContent=session.full_name;
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='block';
-  checkShift();loadPrices();loadCustomers();loadTanks();loadSales();
+  tick();
+  loadMyData();loadPrices();loadCustomers();checkShift();loadTanks();
   attStatus();loadNozzles();loadMyReadings();
 })();
 </script>
