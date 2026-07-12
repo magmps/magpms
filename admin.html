@@ -3,31 +3,73 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>MAGPMS — Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>MAGPMS — Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#080c14;--surface:#0e1520;--border:#1c2a3e;--accent:#f59e0b;--accent2:#0ea5e9;
+:root{--bg:#080c14;--surface:#0e1520;--surface2:#131c2b;--border:#1c2a3e;--accent:#f59e0b;--accent2:#0ea5e9;
   --danger:#ef4444;--success:#22c55e;--purple:#a78bfa;--txt:#e2e8f0;--muted:#64748b;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-size:15px;min-height:100vh}
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 18px;
-  display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-header h1{font-family:'Syne',sans-serif;font-size:17px}
-header h1 small{display:block;font-size:10px;color:var(--muted);font-weight:400}
-.btn{padding:8px 14px;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-.btn-out{background:var(--danger);color:#fff}
+h1.display{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(38px,10vw,56px);letter-spacing:-.02em}
+.sub{color:var(--muted);margin-top:4px}
+
+/* TOPBAR + MENU */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:13px 18px;
+  display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:30}
+header .brand{font-family:'Syne',sans-serif;font-size:16px}
+header .brand small{display:block;font-size:10px;color:var(--muted);font-weight:400}
+.menu-btn{background:var(--surface2);border:1px solid var(--border);color:var(--txt);
+  border-radius:10px;padding:9px 13px;font-size:16px;cursor:pointer}
+#sideMenu{position:fixed;top:0;left:-290px;width:280px;height:100vh;background:var(--surface);
+  border-right:1px solid var(--border);z-index:60;transition:left .25s;padding:20px 14px;overflow-y:auto}
+#sideMenu.open{left:0}
+#menuOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:none}
+#menuOverlay.show{display:block}
+.mi{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;cursor:pointer;
+  font-size:14.5px;color:var(--txt);border-left:3px solid transparent;margin-bottom:4px}
+.mi:hover,.mi.active{background:var(--surface2);border-left-color:var(--accent)}
+.mi span.ic{font-size:19px}
+
+/* CLOCK */
+.clock{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:14px 18px;display:inline-block;font-family:'JetBrains Mono',monospace;margin-top:18px}
+.clock .d{color:var(--accent);font-size:15px}
+.clock .t{color:var(--muted);font-size:14px;text-align:right;margin-top:2px}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px 18px;
+  position:relative;overflow:hidden}
+.scard::after{content:"";position:absolute;top:-38px;right:-38px;width:120px;height:120px;border-radius:50%;
+  background:rgba(255,255,255,.03)}
+.scard .em{font-size:30px}
+.scard .lbl{color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-top:12px}
+.scard .val{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(24px,7vw,34px);margin-top:8px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scard .unit{color:var(--muted);font-size:13px;margin-top:8px}
+.v-gold{color:var(--accent)}.v-blue{color:var(--accent2)}.v-purple{color:var(--purple)}.v-green{color:var(--success)}
+.scard.hl{border-color:var(--accent)}
+
+/* PANELS / CARDS */
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;margin-top:16px}
+.card h2{font-family:'Syne',sans-serif;font-size:16px;margin-bottom:12px;color:var(--accent)}
+.section{display:none}
+.section.show{display:block}
+.field{display:grid;gap:5px;margin-bottom:11px}
+label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+input,select{background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--txt);
+  font-size:14px;padding:10px 13px;width:100%;font-family:inherit;outline:none}
+input:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--surface)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{padding:9px 14px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-gold{background:var(--accent);color:#000;width:100%;padding:12px;font-size:14px}
 .btn-ok{background:var(--success);color:#000;padding:6px 12px;font-size:12px}
 .btn-no{background:var(--danger);color:#fff;padding:6px 12px;font-size:12px}
-.btn-gold{background:var(--accent);color:#000;width:100%;padding:11px;font-size:13.5px}
 .btn-blue{background:var(--accent2);color:#000;padding:6px 12px;font-size:12px}
+.btn-out{background:var(--danger);color:#fff}
 .btn:disabled{opacity:.5}
-.wrap{max-width:860px;margin:0 auto;padding:18px 16px 40px;display:grid;gap:16px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}
-.stat .n{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent)}
-.stat .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px}
-.card h2{font-family:'Syne',sans-serif;font-size:15px;margin-bottom:12px;color:var(--accent)}
 .tabs{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap}
 .tab{padding:6px 14px;border-radius:99px;border:1px solid var(--border);background:transparent;
   color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
@@ -53,39 +95,73 @@ table{width:100%;border-collapse:collapse;font-size:12.5px}
 th{color:var(--muted);text-align:left;font-size:10px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--border)}
 td{padding:8px;border-bottom:1px solid var(--border)}
 .empty{color:var(--muted);text-align:center;padding:20px 0;font-size:13px}
-.field{display:grid;gap:5px;margin-bottom:11px}
-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-input,select{background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--txt);
-  font-size:14px;padding:10px 13px;width:100%;font-family:inherit;outline:none}
-input:focus,select:focus{border-color:var(--accent)}
-select option{background:var(--surface)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .msg{padding:9px 12px;border-radius:9px;font-size:13px;display:none;margin-top:8px}
 .msg.error{background:rgba(239,68,68,.12);color:var(--danger);display:block}
 .msg.success{background:rgba(34,197,94,.12);color:var(--success);display:block}
+.tx{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+.tx:last-child{border-bottom:none}
+.tx .l h4{font-size:13.5px}
+.tx .l p{font-size:11px;color:var(--muted);margin-top:2px}
+.tx .amt{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--success);font-size:13.5px}
 #loading{display:grid;place-items:center;height:100vh;color:var(--muted)}
-@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+@media(min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media print{body{background:#fff;color:#000}header,.menu-btn,.no-print,.card:not(#printArea){display:none!important}
+  #printArea{border:none;background:#fff;color:#000}#printArea h2{color:#000}th{color:#333}td,th{border-bottom:1px solid #999}.mono{color:#000}}
 </style>
 </head>
 <body>
 <div id="loading">Loading...</div>
 <div id="app" style="display:none">
+
 <header>
-  <h1>🛡 MAGPMS Admin<small id="whoami"></small></h1>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <div class="brand">⛽ MAGPMS<small id="whoami"></small></div>
   <button class="btn btn-out" onclick="logout()">Log Out</button>
 </header>
+
+<div id="menuOverlay" onclick="toggleMenu()"></div>
+<nav id="sideMenu">
+  <div class="mi active" data-s="dashboard" onclick="go('dashboard',this)"><span class="ic">📊</span> Dashboard</div>
+  <div class="mi" data-s="prices" onclick="go('prices',this)"><span class="ic">💲</span> Fuel Prices</div>
+  <div class="mi" data-s="staff" onclick="go('staff',this)"><span class="ic">👥</span> User Accounts</div>
+  <div class="mi" data-s="tanks" onclick="go('tanks',this)"><span class="ic">🛢</span> Tanks &amp; Delivery</div>
+  <div class="mi" data-s="credit" onclick="go('credit',this)"><span class="ic">🧾</span> Credit Customers</div>
+  <div class="mi" data-s="sales" onclick="go('sales',this)"><span class="ic">💰</span> Sales</div>
+  <div class="mi" data-s="expenses" onclick="go('expenses',this)"><span class="ic">💸</span> Expenses</div>
+  <div class="mi" data-s="reports" onclick="go('reports',this)"><span class="ic">📈</span> Staff Report</div>
+  <div class="mi" data-s="shifts" onclick="go('shifts',this)"><span class="ic">🕒</span> Shifts &amp; Attendance</div>
+</nav>
+
 <div class="wrap">
 
+<!-- ================= DASHBOARD ================= -->
+<div class="section show" id="sec-dashboard">
+  <h1 class="display">Dashboard</h1>
+  <div class="sub">Live station overview</div>
+
+  <div class="clock"><div class="d" id="clockDate">—</div><div class="t" id="clockTime">—</div></div>
+
   <div class="stats">
-    <div class="stat"><div class="n" id="stPending">0</div><div class="l">Pending</div></div>
-    <div class="stat"><div class="n" id="stApproved">0</div><div class="l">Approved</div></div>
-    <div class="stat"><div class="n" id="stSales">0</div><div class="l">Sales</div></div>
-    <div class="stat"><div class="n" id="stRevenue">0</div><div class="l">ETB Total</div></div>
+    <div class="scard"><div class="em">💰</div><div class="lbl">Total Sales</div>
+      <div class="val v-gold" id="dTotalSales">0</div><div class="unit">ETB</div></div>
+    <div class="scard"><div class="em">🛢</div><div class="lbl">Fuel Stock</div>
+      <div class="val v-blue" id="dFuelStock">0</div><div class="unit">Liters</div></div>
+    <div class="scard"><div class="em">💳</div><div class="lbl">Credit Balance</div>
+      <div class="val v-purple" id="dCredit">0</div><div class="unit">ETB</div></div>
+    <div class="scard hl"><div class="em">👷</div><div class="lbl">Employees</div>
+      <div class="val v-green" id="dOnDuty">0</div><div class="unit">On Register</div></div>
   </div>
 
-  <!-- PRICES -->
   <div class="card">
-    <h2>💲 Fuel Prices (ETB / Liter)</h2>
+    <h2>Recent Transactions</h2>
+    <div id="recentTx"><div class="empty">Loading...</div></div>
+  </div>
+</div>
+
+<!-- ================= PRICES ================= -->
+<div class="section" id="sec-prices">
+  <h1 class="display">Prices</h1><div class="sub">Fuel price management (ETB / liter)</div>
+  <div class="card">
     <div class="grid2">
       <div class="field"><label>Diesel</label><input type="number" id="prDiesel" step="0.01" min="0" inputmode="decimal"/></div>
       <div class="field"><label>Petrol</label><input type="number" id="prPetrol" step="0.01" min="0" inputmode="decimal"/></div>
@@ -93,10 +169,12 @@ select option{background:var(--surface)}
     <button class="btn btn-gold" id="priceBtn" onclick="savePrices()">💾 Update Prices</button>
     <div class="msg" id="priceMsg"></div>
   </div>
+</div>
 
-  <!-- STAFF -->
+<!-- ================= STAFF ================= -->
+<div class="section" id="sec-staff">
+  <h1 class="display">Accounts</h1><div class="sub">Staff approval &amp; roles</div>
   <div class="card">
-    <h2>👥 Staff Accounts</h2>
     <div class="tabs">
       <button class="tab active" onclick="setFilter('pending',this)">Pending</button>
       <button class="tab" onclick="setFilter('approved',this)">Approved</button>
@@ -105,10 +183,12 @@ select option{background:var(--surface)}
     </div>
     <div id="staffList" class="empty">Loading...</div>
   </div>
+</div>
 
-  <!-- TANKS + DELIVERY -->
+<!-- ================= TANKS ================= -->
+<div class="section" id="sec-tanks">
+  <h1 class="display">Tanks</h1><div class="sub">Levels &amp; fuel deliveries</div>
   <div class="card">
-    <h2>🛢 Tanks &amp; Fuel Delivery</h2>
     <div id="tankList" class="empty">Loading...</div>
     <div style="border-top:1px solid var(--border);margin:12px 0"></div>
     <div class="grid2">
@@ -118,41 +198,40 @@ select option{background:var(--surface)}
     <button class="btn btn-gold" id="dvBtn" onclick="recordDelivery()">🚚 Record Delivery</button>
     <div class="msg" id="dvMsg"></div>
   </div>
+</div>
 
-  <!-- CREDIT CUSTOMERS -->
+<!-- ================= CREDIT ================= -->
+<div class="section" id="sec-credit">
+  <h1 class="display">Credit</h1><div class="sub">Credit customers &amp; payments</div>
   <div class="card">
-    <h2>🧾 Credit Customers</h2>
     <div class="grid2">
       <div class="field"><label>Name</label><input type="text" id="ccName"/></div>
       <div class="field"><label>Phone</label><input type="text" id="ccPhone" placeholder="09xxxxxxxx"/></div>
       <div class="field"><label>Plate No</label><input type="text" id="ccPlate"/></div>
-      <div class="field"><label>Credit Limit (ETB, 0 = unlimited)</label><input type="number" id="ccLimit" min="0" step="1" value="0"/></div>
+      <div class="field"><label>Credit Limit (0 = unlimited)</label><input type="number" id="ccLimit" min="0" step="1" value="0"/></div>
     </div>
     <button class="btn btn-gold" id="ccBtn" onclick="addCustomer()">➕ Add Customer</button>
     <div class="msg" id="ccMsg"></div>
     <div style="border-top:1px solid var(--border);margin:12px 0"></div>
     <div id="custList" class="empty">Loading...</div>
   </div>
+</div>
 
-  <!-- REPORTS -->
-  <div class="card" id="printArea">
-    <h2 style="display:flex;justify-content:space-between;align-items:center">📊 Daily Report (last 7 days)
-      <button class="btn btn-blue no-print" onclick="printReport()">🖨 Print</button></h2>
+<!-- ================= SALES ================= -->
+<div class="section" id="sec-sales">
+  <h1 class="display">Sales</h1><div class="sub">All transactions (latest 100)</div>
+  <div class="card">
     <table>
-      <thead><tr><th>Day</th><th>Sales</th><th>Liters</th><th>Revenue</th><th>Expenses</th><th>Net ETB</th></tr></thead>
-      <tbody id="reportBody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
-    </table>
-    <div style="border-top:1px solid var(--border);margin:12px 0"></div>
-    <h2 style="margin-bottom:8px">🏆 Staff Performance (7 days)</h2>
-    <table>
-      <thead><tr><th>Staff</th><th>Sales</th><th>Liters</th><th>Revenue ETB</th></tr></thead>
-      <tbody id="staffRepBody"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+      <thead><tr><th>Time</th><th>Staff</th><th>Fuel</th><th>Liters</th><th>ETB</th><th>Pay</th></tr></thead>
+      <tbody id="salesBody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
     </table>
   </div>
+</div>
 
-  <!-- EXPENSES -->
+<!-- ================= EXPENSES ================= -->
+<div class="section" id="sec-expenses">
+  <h1 class="display">Expenses</h1><div class="sub">Operating costs</div>
   <div class="card">
-    <h2>💸 Expenses</h2>
     <div class="grid2">
       <div class="field"><label>Category</label>
         <select id="exCat"><option>salary</option><option>electricity</option><option>maintenance</option><option>transport</option><option>other</option></select></div>
@@ -167,26 +246,30 @@ select option{background:var(--surface)}
       <tbody id="exBody"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
     </table>
   </div>
+</div>
 
-  <!-- ATTENDANCE -->
-  <div class="card">
-    <h2>🕐 Attendance Log</h2>
+<!-- ================= REPORTS ================= -->
+<div class="section" id="sec-reports">
+  <h1 class="display">Reports</h1><div class="sub">Performance &amp; profit</div>
+  <div class="card" id="printArea">
+    <h2 style="display:flex;justify-content:space-between;align-items:center">📊 Daily Report (7 days)
+      <button class="btn btn-blue no-print" onclick="window.print()">🖨 Print</button></h2>
     <table>
-      <thead><tr><th>Staff</th><th>Check In</th><th>Check Out</th><th>Hours</th></tr></thead>
-      <tbody id="attBody"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+      <thead><tr><th>Day</th><th>Sales</th><th>Liters</th><th>Revenue</th><th>Expenses</th><th>Net ETB</th></tr></thead>
+      <tbody id="reportBody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+    </table>
+    <div style="border-top:1px solid var(--border);margin:12px 0"></div>
+    <h2>🏆 Staff Performance (7 days)</h2>
+    <table>
+      <thead><tr><th>Staff</th><th>Sales</th><th>Liters</th><th>Revenue ETB</th></tr></thead>
+      <tbody id="staffRepBody"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
     </table>
   </div>
+</div>
 
-  <!-- NOZZLE READINGS -->
-  <div class="card">
-    <h2>⛽ Nozzle Readings (latest 100)</h2>
-    <table>
-      <thead><tr><th>Staff</th><th>Nozzle</th><th>Fuel</th><th>Open</th><th>Close</th><th>Liters</th></tr></thead>
-      <tbody id="nrBody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
-    </table>
-  </div>
-
-  <!-- SHIFTS -->
+<!-- ================= SHIFTS ================= -->
+<div class="section" id="sec-shifts">
+  <h1 class="display">Shifts</h1><div class="sub">Shifts, meters &amp; attendance</div>
   <div class="card">
     <h2>🕒 Shifts</h2>
     <table>
@@ -194,35 +277,93 @@ select option{background:var(--surface)}
       <tbody id="shiftBody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
     </table>
   </div>
-
-  <!-- SALES -->
   <div class="card">
-    <h2>💰 All Sales (latest 100)</h2>
+    <h2>⛽ Nozzle Readings</h2>
     <table>
-      <thead><tr><th>Time</th><th>Staff</th><th>Fuel</th><th>Liters</th><th>ETB</th><th>Pay</th></tr></thead>
-      <tbody id="salesBody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+      <thead><tr><th>Staff</th><th>Nozzle</th><th>Fuel</th><th>Open</th><th>Close</th><th>Liters</th></tr></thead>
+      <tbody id="nrBody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
     </table>
   </div>
+  <div class="card">
+    <h2>🕐 Attendance Log</h2>
+    <table>
+      <thead><tr><th>Staff</th><th>Check In</th><th>Check Out</th><th>Hours</th></tr></thead>
+      <tbody id="attBody"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
 
 </div>
 </div>
 
 <script src="config.js"></script>
 <script>
-let session=null, allStaff=[], filter='pending', tanksCache=[];
+let session=null, allStaff=[], filter='pending';
 
 function logout(){localStorage.removeItem('magpms_admin');location.href='index.html';}
 function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
 function msg(id,text,type){const el=document.getElementById(id);el.textContent=text;el.className='msg '+type;}
+function toggleMenu(){document.getElementById('sideMenu').classList.toggle('open');
+  document.getElementById('menuOverlay').classList.toggle('show');}
+function go(sec,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('show'));
+  document.getElementById('sec-'+sec).classList.add('show');
+  document.querySelectorAll('.mi').forEach(m=>m.classList.remove('active'));
+  el.classList.add('active');
+  toggleMenu();window.scrollTo(0,0);
+}
 
-/* ---- PRICES ---- */
-async function loadPrices(){
+/* CLOCK */
+function tick(){
+  const n=new Date();
+  document.getElementById('clockDate').textContent=n.toLocaleDateString('en-GB',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('clockTime').textContent=n.toLocaleTimeString('en-GB');
+}
+setInterval(tick,1000);
+
+/* DASHBOARD */
+async function loadDashboard(){
   try{
-    const r=await rpc('get_prices',{});
+    const [sales,tanks,custs,att]=await Promise.all([
+      rpc('list_sales',{p_staff_id:null,p_limit:100}),
+      rpc('list_tanks',{}),
+      rpc('list_credit_customers',{}),
+      rpc('admin_list_attendance',{p_limit:100})
+    ]);
+    if(Array.isArray(sales)){
+      const live=sales.filter(s=>!s.voided);
+      const rev=live.reduce((a,s)=>a+Number(s.total_etb||0),0);
+      document.getElementById('dTotalSales').textContent=rev.toLocaleString(undefined,{maximumFractionDigits:0});
+      const tx=document.getElementById('recentTx');
+      const recent=live.slice(0,8);
+      tx.innerHTML=recent.length?recent.map(s=>{
+        const t=new Date(s.created_at).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+        return `<div class="tx"><div class="l"><h4>${s.fuel_type} · ${s.liters} L</h4>
+          <p>${esc(s.staff_name)} · ${t} · ${esc(s.payment_method)}</p></div>
+          <div class="amt">+${Number(s.total_etb).toFixed(0)} ETB</div></div>`;
+      }).join(''):'<div class="empty">No transactions yet</div>';
+    }
+    if(Array.isArray(tanks)){
+      const stock=tanks.reduce((a,t)=>a+Number(t.current_liters||0),0);
+      document.getElementById('dFuelStock').textContent=stock.toLocaleString(undefined,{maximumFractionDigits:0});
+    }
+    if(Array.isArray(custs)){
+      const cb=custs.reduce((a,c)=>a+Number(c.balance||0),0);
+      document.getElementById('dCredit').textContent=cb.toLocaleString(undefined,{maximumFractionDigits:0});
+    }
+    if(Array.isArray(att)){
+      const on=att.filter(a=>!a.check_out).length;
+      document.getElementById('dOnDuty').textContent=on;
+    }
+  }catch(e){}
+}
+
+/* PRICES */
+async function loadPrices(){
+  try{const r=await rpc('get_prices',{});
     if(Array.isArray(r))r.forEach(p=>{
       if(p.fuel_type==='Diesel')document.getElementById('prDiesel').value=p.price_per_liter;
-      if(p.fuel_type==='Petrol')document.getElementById('prPetrol').value=p.price_per_liter;
-    });
+      if(p.fuel_type==='Petrol')document.getElementById('prPetrol').value=p.price_per_liter;});
   }catch(e){}
 }
 async function savePrices(){
@@ -238,13 +379,11 @@ async function savePrices(){
   finally{btn.disabled=false;}
 }
 
-/* ---- STAFF ---- */
-function setFilter(f,btn){filter=f;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderStaff();}
+/* STAFF */
+function setFilter(f,btn){filter=f;document.querySelectorAll('#sec-staff .tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderStaff();}
 function renderStaff(){
   const list=document.getElementById('staffList');
   const rows=filter==='all'?allStaff:allStaff.filter(s=>s.status===filter);
-  document.getElementById('stPending').textContent=allStaff.filter(s=>s.status==='pending').length;
-  document.getElementById('stApproved').textContent=allStaff.filter(s=>s.status==='approved').length;
   if(rows.length===0){list.className='empty';list.textContent='No staff in this category';return;}
   list.className='';
   list.innerHTML=rows.map(s=>`
@@ -268,23 +407,25 @@ async function setStatus(id,status){
   const r=await rpc('admin_set_staff_status',{p_staff_id:id,p_admin_id:session.id,p_status:status});
   if(r.success)loadStaff();else alert(r.message||'Failed');
 }
+async function setRole(staffId,role){
+  const r=await rpc('admin_set_staff_role',{p_admin_id:session.id,p_staff_id:staffId,p_role:role});
+  if(!r.success)alert(r.message||'Failed');loadStaff();
+}
 async function loadStaff(){
   try{const r=await rpc('admin_list_staff',{p_status:null});allStaff=Array.isArray(r)?r:[];renderStaff();}catch(e){}
 }
 
-/* ---- TANKS + DELIVERY ---- */
+/* TANKS */
 async function loadTanks(){
   try{
     const tanks=await rpc('list_tanks',{});
     if(!Array.isArray(tanks))return;
-    tanksCache=tanks;
     const el=document.getElementById('tankList');el.className='';
     el.innerHTML=tanks.map(t=>{
       const pct=Math.max(0,Math.min(100,(t.current_liters/t.capacity_liters)*100));
       return `<div class="tank"><span>${t.tank_name} · ${t.fuel_type}</span>
         <span class="mono">${Number(t.current_liters).toLocaleString()} / ${Number(t.capacity_liters).toLocaleString()} L</span>
-        <span class="bar"><i style="width:${pct}%"></i></span></div>`;
-    }).join('');
+        <span class="bar"><i style="width:${pct}%"></i></span></div>`;}).join('');
     document.getElementById('dvTank').innerHTML=tanks.map(t=>
       `<option value="${t.id}">${t.tank_name} (${t.fuel_type})</option>`).join('');
   }catch(e){}
@@ -297,12 +438,12 @@ async function recordDelivery(){
   try{
     const r=await rpc('admin_record_delivery',{p_admin_id:session.id,p_tank_id:tank,p_liters:liters});
     msg('dvMsg',r.message,r.success?'success':'error');
-    if(r.success){document.getElementById('dvLiters').value='';loadTanks();}
+    if(r.success){document.getElementById('dvLiters').value='';loadTanks();loadDashboard();}
   }catch(e){msg('dvMsg','Connection error','error');}
   finally{btn.disabled=false;}
 }
 
-/* ---- CREDIT CUSTOMERS ---- */
+/* CREDIT */
 async function addCustomer(){
   const name=document.getElementById('ccName').value.trim();
   const phone=document.getElementById('ccPhone').value.trim();
@@ -313,7 +454,7 @@ async function addCustomer(){
   try{
     const r=await rpc('admin_add_credit_customer',{p_admin_id:session.id,p_name:name,p_phone:phone,p_plate:plate,p_limit:lim});
     msg('ccMsg',r.message,r.success?'success':'error');
-    if(r.success){['ccName','ccPhone','ccPlate'].forEach(i=>document.getElementById(i).value='');document.getElementById('ccLimit').value='0';loadCustomers();}
+    if(r.success){['ccName','ccPhone','ccPlate'].forEach(i=>document.getElementById(i).value='');document.getElementById('ccLimit').value='0';loadCustomers();loadDashboard();}
   }catch(e){msg('ccMsg','Connection error','error');}
   finally{btn.disabled=false;}
 }
@@ -322,7 +463,7 @@ async function payCredit(id,name){
   if(!amt||amt<=0)return;
   const r=await rpc('admin_credit_payment',{p_admin_id:session.id,p_customer_id:id,p_amount:amt});
   alert(r.message||'Done');
-  if(r.success)loadCustomers();
+  if(r.success){loadCustomers();loadDashboard();}
 }
 async function loadCustomers(){
   try{
@@ -340,35 +481,12 @@ async function loadCustomers(){
   }catch(e){}
 }
 
-/* ---- SHIFTS ---- */
-async function loadShifts(){
-  try{
-    const r=await rpc('admin_list_shifts',{p_limit:50});
-    const tb=document.getElementById('shiftBody');
-    if(!Array.isArray(r)||r.length===0){tb.innerHTML='<tr><td colspan="6" class="empty">No shifts yet</td></tr>';return;}
-    tb.innerHTML=r.map(sh=>{
-      const opened=new Date(sh.opened_at).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      const liters=(sh.closing_meter!=null&&sh.opening_meter!=null)?(sh.closing_meter-sh.opening_meter).toFixed(1):'—';
-      return `<tr><td>${esc(sh.staff_name)}</td><td class="mono">${opened}</td>
-        <td class="mono">${sh.opening_meter??'—'}</td><td class="mono">${sh.closing_meter??'—'}</td>
-        <td class="mono">${liters}</td><td><span class="tag ${sh.status}">${sh.status}</span></td></tr>`;
-    }).join('');
-  }catch(e){}
-}
-
-/* ---- SALES ---- */
+/* SALES */
 async function loadSales(){
   try{
     const sales=await rpc('list_sales',{p_staff_id:null,p_limit:100});
     const tb=document.getElementById('salesBody');
-    if(!Array.isArray(sales)||sales.length===0){
-      tb.innerHTML='<tr><td colspan="6" class="empty">No sales yet</td></tr>';
-      document.getElementById('stSales').textContent='0';
-      document.getElementById('stRevenue').textContent='0';return;}
-    const live=sales.filter(s=>!s.voided);
-    document.getElementById('stSales').textContent=live.length;
-    const rev=live.reduce((a,s)=>a+Number(s.total_etb||0),0);
-    document.getElementById('stRevenue').textContent=rev.toLocaleString(undefined,{maximumFractionDigits:0});
+    if(!Array.isArray(sales)||sales.length===0){tb.innerHTML='<tr><td colspan="6" class="empty">No sales yet</td></tr>';return;}
     tb.innerHTML=sales.map(s=>{
       const t=new Date(s.created_at).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
       const style=s.voided?' style="opacity:.4;text-decoration:line-through"':'';
@@ -378,22 +496,14 @@ async function loadSales(){
     }).join('');
   }catch(e){}
 }
-
 async function voidSale(id){
   if(!confirm('Void this sale? Tank and credit balance will be reversed.'))return;
   const r=await rpc('admin_void_sale',{p_admin_id:session.id,p_sale_id:id});
   alert(r.message||'Done');
-  if(r.success){loadSales();loadTanks();loadCustomers();loadReports();}
+  if(r.success){loadSales();loadTanks();loadCustomers();loadReports();loadDashboard();}
 }
 
-/* ---- V3: ROLE ---- */
-async function setRole(staffId,role){
-  const r=await rpc('admin_set_staff_role',{p_admin_id:session.id,p_staff_id:staffId,p_role:role});
-  if(!r.success)alert(r.message||'Failed');
-  loadStaff();
-}
-
-/* ---- V3: EXPENSES ---- */
+/* EXPENSES */
 async function addExpense(){
   const cat=document.getElementById('exCat').value;
   const amt=parseFloat(document.getElementById('exAmt').value);
@@ -419,7 +529,7 @@ async function loadExpenses(){
   }catch(e){}
 }
 
-/* ---- V3: REPORTS ---- */
+/* REPORTS */
 async function loadReports(){
   try{
     const days=await rpc('daily_report',{p_days:7});
@@ -433,7 +543,6 @@ async function loadReports(){
           <td class="mono" style="color:${net>=0?'var(--success)':'var(--danger)'}">${net.toFixed(2)}</td></tr>`;
       }).join('');
     }else{tb.innerHTML='<tr><td colspan="6" class="empty">No data</td></tr>';}
-
     const staff=await rpc('staff_report',{p_days:7});
     const sb=document.getElementById('staffRepBody');
     if(Array.isArray(staff)&&staff.length){
@@ -443,17 +552,31 @@ async function loadReports(){
   }catch(e){}
 }
 
-(function init(){
-  session=JSON.parse(localStorage.getItem('magpms_admin')||'null');
-  if(!session||!session.success){location.href='index.html';return;}
-  document.getElementById('whoami').textContent=session.full_name;
-  document.getElementById('loading').style.display='none';
-  document.getElementById('app').style.display='block';
-  loadPrices();loadStaff();loadTanks();loadCustomers();loadShifts();loadSales();loadExpenses();loadReports();
-  loadAttendance();loadReadings();
-})();
-
-/* ---- V4: ATTENDANCE ---- */
+/* SHIFTS + READINGS + ATTENDANCE */
+async function loadShifts(){
+  try{
+    const r=await rpc('admin_list_shifts',{p_limit:50});
+    const tb=document.getElementById('shiftBody');
+    if(!Array.isArray(r)||r.length===0){tb.innerHTML='<tr><td colspan="6" class="empty">No shifts yet</td></tr>';return;}
+    tb.innerHTML=r.map(sh=>{
+      const opened=new Date(sh.opened_at).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      const liters=(sh.closing_meter!=null&&sh.opening_meter!=null)?(sh.closing_meter-sh.opening_meter).toFixed(1):'—';
+      return `<tr><td>${esc(sh.staff_name)}</td><td class="mono">${opened}</td>
+        <td class="mono">${sh.opening_meter??'—'}</td><td class="mono">${sh.closing_meter??'—'}</td>
+        <td class="mono">${liters}</td><td><span class="tag ${sh.status}">${sh.status}</span></td></tr>`;
+    }).join('');
+  }catch(e){}
+}
+async function loadReadings(){
+  try{
+    const r=await rpc('admin_list_readings',{p_limit:100});
+    const tb=document.getElementById('nrBody');
+    if(!Array.isArray(r)||r.length===0){tb.innerHTML='<tr><td colspan="6" class="empty">No readings yet</td></tr>';return;}
+    tb.innerHTML=r.map(x=>`<tr><td>${esc(x.staff_name)}</td><td>${x.nozzle_name}</td><td>${x.fuel_type}</td>
+      <td class="mono">${x.opening}</td><td class="mono">${x.closing??'—'}</td>
+      <td class="mono">${x.liters!=null?Number(x.liters).toFixed(1):'—'}</td></tr>`).join('');
+  }catch(e){}
+}
 async function loadAttendance(){
   try{
     const r=await rpc('admin_list_attendance',{p_limit:100});
@@ -470,30 +593,16 @@ async function loadAttendance(){
   }catch(e){}
 }
 
-/* ---- V4: NOZZLE READINGS ---- */
-async function loadReadings(){
-  try{
-    const r=await rpc('admin_list_readings',{p_limit:100});
-    const tb=document.getElementById('nrBody');
-    if(!Array.isArray(r)||r.length===0){tb.innerHTML='<tr><td colspan="6" class="empty">No readings yet</td></tr>';return;}
-    tb.innerHTML=r.map(x=>`<tr><td>${esc(x.staff_name)}</td><td>${x.nozzle_name}</td><td>${x.fuel_type}</td>
-      <td class="mono">${x.opening}</td><td class="mono">${x.closing??'—'}</td>
-      <td class="mono">${x.liters!=null?Number(x.liters).toFixed(1):'—'}</td></tr>`).join('');
-  }catch(e){}
-}
-
-/* ---- V4: PRINT ---- */
-function printReport(){window.print();}
-const printCss=document.createElement('style');
-printCss.textContent=`@media print{
-  body{background:#fff;color:#000}
-  header,.stats,.card:not(#printArea),.no-print{display:none!important}
-  #printArea{border:none;box-shadow:none;background:#fff;color:#000}
-  #printArea h2{color:#000}
-  th{color:#333}td,th{border-bottom:1px solid #999}
-  .mono{color:#000}
-}`;
-document.head.appendChild(printCss);
+(function init(){
+  session=JSON.parse(localStorage.getItem('magpms_admin')||'null');
+  if(!session||!session.success){location.href='index.html';return;}
+  document.getElementById('whoami').textContent=session.full_name;
+  document.getElementById('loading').style.display='none';
+  document.getElementById('app').style.display='block';
+  tick();
+  loadDashboard();loadPrices();loadStaff();loadTanks();loadCustomers();
+  loadSales();loadExpenses();loadReports();loadShifts();loadReadings();loadAttendance();
+})();
 </script>
 </body>
 </html>
